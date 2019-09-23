@@ -20,12 +20,10 @@ class RepositoriesController < ApplicationController
   def create
     new_repo = params["name"].split(" ").join("-")
 
-    x = Faraday.post "https://api.github.com/user/repos" do |req|
+    Faraday.post "https://api.github.com/user/repos" do |req|
       req.body = { 'name': new_repo }.to_json
       req.headers = { 'Authorization': "token #{session[:token]}" }
     end
-
-    binding.pry
 
     redirect_to root_path
 
